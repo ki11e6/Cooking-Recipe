@@ -1,12 +1,13 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import Searchbar from './Searchbar';
+import useTheme from '../hooks/useTheme';
 
 const Navbar = () => {
+  const { color, changeColor } = useTheme();
   return (
-    <div className="navbar">
-      <nav>
+    <div className="navbar" style={{ background: color }}>
+      <nav onClick={() => changeColor('aqua')}>
         <Link to="/" className="brand">
           <h1>Cooking Recipe</h1>
         </Link>
