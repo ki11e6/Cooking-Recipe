@@ -1,15 +1,28 @@
 import './ThemeSelector.css';
 import { useTheme } from '../hooks/useTheme';
+import modeIcon from '../assets/darkmod.svg';
 
 import React from 'react';
 
 const themeColors = ['#58249c', '#249c6b', '#b70233'];
 
 const ThemeSelector = () => {
-  const { changeColor } = useTheme();
+  const { changeColor, changeMode, mode } = useTheme();
+
+  const toggleMode = () => {
+    changeMode(mode === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <div className="theme-selector">
+      <div className="mode-toggle">
+        <img
+          src={modeIcon}
+          alt="mode-toggle"
+          onClick={toggleMode}
+          style={{ filter: mode === 'dark' ? 'invert(100%)' : 'invert(20%)' }}
+        />
+      </div>
       <div className="theme-buttons">
         {themeColors.map((color) => (
           <div
