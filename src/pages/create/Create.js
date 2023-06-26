@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
 import './Create.css';
+import { projectFirestore } from '../../firebase/config';
 
 const Create = () => {
   const [title, setTitle] = useState('');
@@ -12,24 +12,21 @@ const Create = () => {
   const ingredientInput = useRef(null);
   const history = useHistory();
 
-  const { postData, data } = useFetch('http://localhost:3000/recipes', 'POST');
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    postData({
+    const doc = {
       title,
       ingredients,
       method,
       cookingTime: cookingTime + ' minutes',
-    });
-  };
-
-  useEffect(() => {
-    if (data) {
-      console.log(data);
+    };
+    try {
+      await projectFirestore.collection('recipes').add(doc);
       history.push('/');
+    } catch (err) {
+      console.log(err);
     }
-  }, [data, history]);
+  };
 
   const handleAdd = (e) => {
     e.preventDefault();
